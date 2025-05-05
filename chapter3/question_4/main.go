@@ -4,7 +4,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
-	"go_homeWork/chapter3/question_3/models"
+	"go_homeWork/chapter3/question_4/models"
 	"log"
 )
 
@@ -19,7 +19,6 @@ func initDB() (err error) {
 	db.SetMaxOpenConns(10)
 	return err
 }
-
 func main() {
 	err := initDB()
 	if err != nil {
@@ -33,17 +32,8 @@ func main() {
 		}
 	}(db)
 
-	sql1 := `select * from employees where department = ?`
-	employees := make([]models.Employee, 0)
-	e := db.Select(&employees, sql1, "技术部")
-	if e != nil {
-		return
-	}
-	fmt.Printf("employees:%#v\n", employees)
-
-	sql2 := `select * from employees order by salary limit 1`
-	var employee models.Employee
-	db.Get(&employee, sql2)
-	fmt.Printf("hightest salary employee:%#v\n", employees)
-
+	sql := `select * from books where price > ?`
+	var books []models.Book
+	db.Select(&books, sql, 50)
+	fmt.Printf("hightest salary employee:%#v\n", books)
 }
